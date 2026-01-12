@@ -16,7 +16,6 @@ from src.rag import get_retriever
 load_dotenv()
 
 # --- 1. DEFINE TOOLS ---
-
 @tool
 def lookup_policy_pricing(query: str):
     """
@@ -35,7 +34,6 @@ def mock_lead_capture(name: str, email: str, platform: str):
     Use this tool ONLY when the user explicitly provides their Name, Email, and Platform 
     indicating they want to sign up or join. Do NOT call this if data is missing.
     """
-    # This matches the assignment requirement exactly [cite: 52-53]
     return f"Lead captured successfully: {name}, {email}, {platform}"
 
 # --- 2. DEFINE STATE ---
@@ -43,9 +41,13 @@ class AgentState(TypedDict):
     messages: Annotated[List[AnyMessage], add_messages]
 
 # --- 3. INITIALIZE AGENT ---
-# We bind the tools to the LLM so it knows they exist
+# CHANGED: Using 'gemini-pro' which is the most stable free-tier model
+# --- 3. INITIALIZE AGENT ---
+# CHANGED: Using "gemini-2.0-flash" as confirmed by your check_models.py list
+# --- 3. INITIALIZE AGENT ---
+# CHANGED: Using "gemini-2.0-flash-lite-preview-02-05" to FIX the 429 Error
 llm = ChatGoogleGenerativeAI(
-    model="gemini-1.5-flash",
+    model="gemini-2.5-pro",
     temperature=0,
     google_api_key=os.getenv("GOOGLE_API_KEY")
 )
@@ -54,7 +56,6 @@ tools = [lookup_policy_pricing, mock_lead_capture]
 llm_with_tools = llm.bind_tools(tools)
 
 # --- 4. SYSTEM PROMPT (THE BRAIN) ---
-# This prompts enforces the assignment's behavior rules [cite: 20-23, 44-50]
 SYSTEM_PROMPT = """You are an intelligent support agent for AutoStream, a SaaS platform for automated video editing.
 
 YOUR GOALS:
@@ -73,7 +74,6 @@ YOUR GOALS:
 """
 
 # --- 5. DEFINE GRAPH NODES ---
-
 def agent_node(state: AgentState):
     """The node where the LLM thinks and generates a response."""
     messages = state["messages"]
@@ -89,11 +89,10 @@ def agent_node(state: AgentState):
 builder = StateGraph(AgentState)
 
 builder.add_node("agent", agent_node)
-builder.add_node("tools", ToolNode(tools)) # ToolNode automatically runs the tool requested by LLM
+builder.add_node("tools", ToolNode(tools)) 
 
 builder.set_entry_point("agent")
 
-# Logic: Agent -> (Did it call a tool?) -> Yes: Tools Node -> Agent / No: End
 builder.add_conditional_edges(
     "agent",
     tools_condition,
