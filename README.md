@@ -70,9 +70,8 @@ python test_agent.py
 
 ## 🎥 Demo & Screenshots
 
-> **Note:** A full screen recording demonstrating the complete workflow is included in the repository root.
-<video controls src="MachineLearning_Recoding.mp4" title="Title"></video>
-
+### 🎥 Demo Video
+[▶️ Watch the Full Demo Video](https://drive.google.com/file/d/1u4f-oKUNOyVfXgEYftP0VDtn1bCmRtz5/view?usp=sharing)
 ### 📸 Execution Proof
 
 **1. RAG Knowledge Retrieval**
