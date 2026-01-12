@@ -1,8 +1,9 @@
 langchain
 langgraph
 langchain-openai
-langchain-chroma
+langchain-google-genai
 python-dotenv
-# We keep these just in case, but we will use OpenAI Embeddings now
+chromadb
 langchain-huggingface
+numpy<2.0.0
 sentence-transformers
