@@ -1,6 +1,6 @@
 langchain
 langgraph
 langchain-openai
-langchain-google-genio
+langchain-google-genai
 python-dotenv
 chromadb
