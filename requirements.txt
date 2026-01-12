@@ -1,0 +1,6 @@
+langchain
+langgraph
+langchain-openai
+langchain-google-genio
+python-dotenv
+chromadb
