@@ -4,3 +4,6 @@ langchain-openai
 langchain-google-genai
 python-dotenv
 chromadb
+langchain-huggingface
+numpy<2.0.0
+sentence-transformers
